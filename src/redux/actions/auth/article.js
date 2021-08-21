@@ -1,5 +1,33 @@
 import { tipos } from '../../../tipos/tipos'
 import { dbpueblo } from '../firebase/config-firebase'
+import Swal from 'sweetalert2'
+
+//const MySwal = withReactContent(Swal)
+
+const handleSuccess = () => {
+    return Swal.fire({
+        title: 'Guardado exitosamente!',
+        text: 'Articulo creado!',
+        icon: 'success',
+        customClass: {
+            confirmButton: 'btn btn-success'
+        },
+        buttonsStyling: false
+    })
+}
+
+
+const handleSuccessimage = () => {
+    return Swal.fire({
+        title: 'Guardado exitosamente!',
+        text: 'Imagenes almacenadas!',
+        icon: 'success',
+        customClass: {
+            confirmButton: 'btn btn-success'
+        },
+        buttonsStyling: false
+    })
+}
 
 export const crear = (data) => {
     return {
@@ -9,18 +37,75 @@ export const crear = (data) => {
 }
 
 
-export const crearRegistro = (articulo) => {
-    return async (dispatch, getState) => {
-        const { uid } = getState().auth
+export const borrar = (id) => {
+    return {
+        type: tipos.articleDelete,
+        payload: id
+    }
+}
 
-        console.log(uid)
+
+export const leerRegistros = (data) => {
+    return {
+        type: tipos.categoriaRead,
+        payload: data
+    }
+}
+
+export const borrarArticulo = (id) => {
+
+    console.log('id action', id)
+    return async (dispatch, getState) => {
+       // const { uid } = getState().auth;
+        //    const state = getState().nomina;
+
+        await dbpueblo
+            .doc(`app/articulos/articulo/${id}`).delete()
+
+        dispatch(borrar(id))
+
+
+    }
+
+}
+
+
+export const leerRegistrosArticle = (data) => {
+
+    return  {
+        type: tipos.articleRead,
+        payload:   data
+    }
+}
+
+export const cargarimagenes = () => {
+    handleSuccessimage()
+}
+
+export const crearRegistro = (articulo) => {
+    // console.log('info', articulo.image[0][0].name, articulo)
+    const imagen = []
+
+    articulo.image.forEach((element, index) => imagen.push(articulo.image[index][0].name.replace(/\s+/g, ''))
+    )
+
+    return async (dispatch, getState) => {
 
         const datos = {
             fecha: new Date().toLocaleDateString(),
-            pago: 600.00,
-            usuarioid: "rgarcia",
-
-
+            usuarioid: localStorage.getItem("userid"),
+            departamento: "cortes",
+            municipio: "potrerillos",
+            categoria: articulo.category,
+            precio: articulo.precio,
+            descripcion: articulo.descripcion,
+            estado: "venta",
+            // imagen: "url",
+            // imagen: ["100", "101", articulo.image[0][0].name],
+            imagen,
+            vendedor: "ritchie",
+            articulo: articulo.marca,
+            condicion: articulo.estadopro
 
         }
 
@@ -34,8 +119,7 @@ export const crearRegistro = (articulo) => {
             id
 
         }
-
-        //  console.log(newData.data())
+        handleSuccess()
         dispatch(crear(newData))
 
 

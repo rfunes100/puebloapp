@@ -26,8 +26,31 @@ import { DefaultRoute, Routes } from './routes'
 import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
+import { loadDataCategorias } from '../helpers/loadDataCategorias'
+import { leerRegistros, leerRegistrosArticle } from '../redux/actions/auth/article'
+import { loadDataArticulosUser } from '../helpers/loadDataArticulosUser'
+import { getUser } from '../helpers/getUser'
 
 const Router = () => {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(
+      async (user) => {
+        const usiario = getUser()
+
+        const nominaData = await loadDataCategorias()
+        const ArticulosData = await loadDataArticulosUser(usiario)
+
+        //  const nominaData = loadDataCategorias().then(data => console.log('promesa categoria', data))
+        console.log('articulo data await', ArticulosData)
+        dispatch(leerRegistros(nominaData))
+        dispatch(leerRegistrosArticle(ArticulosData))
+        //  dispatch(leerRegistros(nominaData))
+      }
+    )
+  }, [dispatch])
 
   // ** Hooks
   const [layout, setLayout] = useLayout()

@@ -20,11 +20,15 @@ const Routes = [
   },
   {
     path: '/save-articles',
-    component: lazy(() => import('../../views/SaveArticulos'))
+    component: lazy(() => import('../../views/Crudrticle'))
   },
   {
     path: '/idiomasapp',
     component: lazy(() => import('../../views/Idiomas'))
+  },
+  {
+    path: '/productodetalle/:id',
+    component: lazy(() => import('../../views/detailsProducto/Index'))
   },
   {
     path: '/login',

@@ -34,7 +34,9 @@ export const emailAndPasswordLogin = (email, password) => {
             then(({ user }) => {
                 console.log(user)
                 dispatch(
-                    login(user.uid, user.displayName)
+                    login(user.uid, user.displayName),
+                    localStorage.setItem("userid", user.uid),
+                    localStorage.setItem("nameuser", user.displayName)
 
                 )
                 window.location = 'home'

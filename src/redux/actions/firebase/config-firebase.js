@@ -6,6 +6,7 @@ import 'firebase/auth'
 //import 'firebase/database'
 
 import 'firebase/firestore'
+import 'firebase/storage'
 
 
 const firebaseConfig = {
@@ -18,13 +19,18 @@ const firebaseConfig = {
 }
 
 firebase.initializeApp(firebaseConfig)
+const storage = firebase.storage()
+
+// Get a reference to the storage service, which is used to create references in your storage bucket
+//const storage = firebase.storage()
+
+// Create a storage reference from our storage service
+//const storageRef = storage.ref('/Articulos')
 
 //const dbpueblo = firebase.firestore()
 const dbpueblo = firebase.firestore()
 
-
 const googlAuthProvider = new firebase.auth.GoogleAuthProvider()
 
-
-export { firebase, dbpueblo, googlAuthProvider }
+export { firebase, dbpueblo, googlAuthProvider, storage }
 
