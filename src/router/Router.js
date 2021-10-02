@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux'
 
 // ** Utils
 import { isUserLoggedIn } from '@utils'
+
+
 import { useLayout } from '@hooks/useLayout'
 import { AbilityContext } from '@src/utility/context/Can'
 import { useRouterTransition } from '@hooks/useRouterTransition'
@@ -27,27 +29,62 @@ import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
 import { loadDataCategorias } from '../helpers/loadDataCategorias'
-import { leerRegistros, leerRegistrosArticle } from '../redux/actions/auth/article'
-import { loadDataArticulosUser } from '../helpers/loadDataArticulosUser'
+import { leerRegistros, leerRegistrosArticle, leerRegistrosArticleAll, leerRegistrosArticleAlltotal} from '../redux/actions/auth/article'
+import { leerRegistrosuser } from '../redux/actions/auth/usuario'
+import { loadDataArticulosUser, loadDataArticulos, loadDataArticulosAll } from '../helpers/loadDataArticulosUser'
+import {loadDataUsers} from '../helpers/loadDataUsers'
 import { getUser } from '../helpers/getUser'
+import { getusername } from '../helpers/getusername'
+import { getlogged } from '../helpers/getlogged'
 
 const Router = () => {
 
   const dispatch = useDispatch()
 
+  const autenticacion = getlogged()
+console.log('autenticacion', autenticacion)
+   
+
   useEffect(() => {
+
+
+    console.log('logueandose')
     firebase.auth().onAuthStateChanged(
       async (user) => {
         const usiario = getUser()
+        if (usiario) {
+    console.log('logueado')
 
         const nominaData = await loadDataCategorias()
+        const loadDataUser = await loadDataUsers()
         const ArticulosData = await loadDataArticulosUser(usiario)
+        const paginas = {
+          pagina: 0,
+          cantidadpagina: 10
+        }
 
+       // const getusernames = getusername()
+      //  console.log('getusernames', getusernames)
+      //  const datas = loadDataUser.filter(item => item.usuario === getusernames)
+
+      //  console.log('getusernames datas', datas)
+        //if(datas
+       //console.log('usuarios total datas', datas[0].imagen, datas)
+       // localStorage.setItem("avatar", datas[0].imagen)
+
+        const articuloall = await  loadDataArticulos(paginas)
+        const articulototal = await   loadDataArticulosAll()
+        dispatch(leerRegistrosArticleAll(articuloall))
+        dispatch(leerRegistrosArticleAlltotal(articulototal))
+        dispatch(leerRegistrosuser(loadDataUser))
+
+        
         //  const nominaData = loadDataCategorias().then(data => console.log('promesa categoria', data))
-        console.log('articulo data await', ArticulosData)
+      //  console.log('articulo data await', ArticulosData)
         dispatch(leerRegistros(nominaData))
         dispatch(leerRegistrosArticle(ArticulosData))
         //  dispatch(leerRegistros(nominaData))
+        }
       }
     )
   }, [dispatch])
@@ -72,6 +109,7 @@ const Router = () => {
     const LayoutPaths = []
 
     if (Routes) {
+      console.log('Routes', Routes)
       Routes.filter(route => {
         // ** Checks if Route layout or Default layout matches current layout
         if (route.layout === layout || (route.layout === undefined && DefaultLayout === layout)) {
@@ -96,20 +134,21 @@ const Router = () => {
 
     // ** Assign vars based on route meta
     if (route.meta) {
+      console.log('route.meta', route.meta)
       action = route.meta.action ? route.meta.action : null
       resource = route.meta.resource ? route.meta.resource : null
     }
 
     if (
-      (!isUserLoggedIn() && route.meta === undefined) ||
-      (!isUserLoggedIn() && route.meta && !route.meta.authRoute && !route.meta.publicRoute)
+      (autenticacion === false /*!isUserLoggedIn()*/ /*&& route.meta === undefined*/) // ||
+     // (!autenticacion /*isUserLoggedIn()*/ && route.meta && !route.meta.authRoute && !route.meta.publicRoute)
     ) {
 
       return <Redirect to='/login' />
-    } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
+    } else if (/*route.meta && route.meta.authRoute &&*/ autenticacion === true /* isUserLoggedIn()*/) {
       // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
       return <Redirect to='/' />
-    } else if (isUserLoggedIn() && !ability.can(action || 'read', resource)) {
+    } else if (autenticacion /*isUserLoggedIn()*/ && !ability.can(action || 'read', resource)) {
       // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
       return <Redirect to='/misc/not-authorized' />
     } else {

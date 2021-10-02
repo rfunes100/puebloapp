@@ -6,13 +6,15 @@ import { lazy } from 'react'
 const TemplateTitle = '%s - Vuexy React Admin Template'
 
 // ** Default Route
-const DefaultRoute = '/home'
+const DefaultRoute = '/login'
 
 // ** Merge Routes
 const Routes = [
   {
     path: '/home',
     component: lazy(() => import('../../views/Home'))
+   
+
   },
   {
     path: '/second-page',
@@ -37,6 +39,19 @@ const Routes = [
     meta: {
       authRoute: true
     }
+  },
+  {
+    path: '/regsiter',
+    component: lazy(() => import('../../views/user/Register')),
+    layout: 'BlankLayout',
+    meta: {
+      authRoute: true
+    }
+  },
+  {
+    path: '/productall',
+    className: 'ecommerce-application',
+    component: lazy(() => import('../../views/Product/Index'))
   },
   {
     path: '/error',

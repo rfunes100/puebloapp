@@ -2,7 +2,9 @@ import { tipos } from '../../../tipos/tipos'
 
 const initialState = {
     // data: []
-    articulouserdata: []
+    articulouserdata: [],
+    articulouserAlldata: [],
+    articulouserAlltotal: []
 
 }
 
@@ -21,6 +23,18 @@ export const articuloReducer = (state = initialState, action) => {
                 articulouserdata: action.payload
               //  articulouserdata: [...state.articulouserdata, action.payload]
             }
+            case tipos.articleReadAll:
+                return {
+                    ...state,
+                    articulouserAlldata: action.payload
+                  //  articulouserdata: [...state.articulouserdata, action.payload]
+                }   
+            case tipos.articleReadAlltotal:
+                    return {
+                        ...state,
+                        articulouserAlltotal: action.payload
+                      //  articulouserdata: [...state.articulouserdata, action.payload]
+                    }   
             case tipos.articleDetails:
                 return {
                     ...state,

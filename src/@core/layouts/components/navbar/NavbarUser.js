@@ -22,6 +22,7 @@ const NavbarUser = props => {
 
   return (
     <Fragment>
+     
       <ul className='navbar-nav d-xl-none d-flex align-items-center'>
         <NavItem className='mobile-menu mr-auto'>
           <NavLink className='nav-menu-main menu-toggle hidden-xs is-active' onClick={() => setMenuVisibility(true)}>
@@ -29,6 +30,7 @@ const NavbarUser = props => {
           </NavLink>
         </NavItem>
       </ul>
+     
       <div className='bookmark-wrapper d-flex align-items-center'>
         <NavItem className='d-none d-lg-block'>
           <NavLink className='nav-link-style'>
@@ -36,9 +38,11 @@ const NavbarUser = props => {
           </NavLink>
         </NavItem>
       </div>
+      
       <ul className='nav navbar-nav align-items-center ml-auto'>
         <UserDropdown />
       </ul>
+       
     </Fragment>
   )
 }

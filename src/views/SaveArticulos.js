@@ -29,6 +29,7 @@ import { storage } from '../redux/actions/firebase/config-firebase'
 import Select, { components } from 'react-select'
 import { ThemeColors } from '@src/utility/context/ThemeColors'
 import { useRTL } from '@hooks/useRTL'
+import { getusername } from '../helpers/getusername'
 
 
 const SaveArticulos = () => {
@@ -40,10 +41,16 @@ const SaveArticulos = () => {
     const [estadopro, setestadopro] = useState(0)
     const [isRtl, setIsRtl] = useRTL()
     const dispatch = useDispatch()
-
     const themeColors = useContext(ThemeColors)
 
     const categoriadata = useSelector(state => state.categoriaReducer.categoriadata)
+    const userdata = useSelector(state => state.userReducer.userdata)
+    const usiario = getusername()
+    const userdataid = userdata.filter(item => item.usuario === usiario)
+
+   console.log('userdata', userdata)
+   
+   console.log('userdataid', userdataid[0].telefono, userdataid)
 
     const [articulo, setarticulo] = useState({
         precio: 0,
@@ -59,8 +66,10 @@ const SaveArticulos = () => {
         marca,
         image,
         category,
-        estadopro
-
+        estadopro,
+        telefono: userdataid[0].telefono,
+        vendedor: usiario
+           
     }
 
     const limpiar = () => {
@@ -185,8 +194,6 @@ const SaveArticulos = () => {
 
                 {
                     viewArticle && (
-
-
                         <CardBody>
                             <Form>
                                 <Row>

@@ -32,6 +32,82 @@ export const loadDataArticulosUser = async (usiario) => {
 
 }
 
+export const loadDataArticulos = async(paginacion) => {
+
+    console.log('paginacion', paginacion)
+    const response = await
+        dbpueblo.collection(`app/articulos/articulo`)
+        //.orderBy('fecha', 'desc')
+            .where("estado", '==', 'venta')
+        // .limit(2)
+        // .startAfter('2')
+            .get()
+    const data = []
+
+    response.forEach(
+        (nomina) => {
+             // console.log('categoria', index, nomina.data())
+            const nominaData = nomina.data()
+            //   console.log('nomina data', nominaData)
+                      
+            data.push({
+                 id: nomina.id,
+                ...nominaData
+
+            })
+
+
+        }
+    )
+  //  console.log('articulos totales', paginacion)
+  //  console.log('articulos totales', data.slice(paginacion.pagina, paginacion.cantidadpagina))
+    return data.slice(paginacion.pagina, paginacion.cantidadpagina)
+
+
+}
+
+
+export const loadDataArticulosAll = async() => {
+
+    const response = await
+        dbpueblo.collection(`app/articulos/articulo`)
+        //.orderBy('fecha', 'desc')
+            .where("estado", '==', 'venta')
+        // .limit(2)
+        // .startAfter('2')
+            .get()
+    const data = []
+
+    response.forEach(
+        (nomina) => {
+             // console.log('categoria', index, nomina.data())
+            const nominaData = nomina.data()
+            //   console.log('nomina data', nominaData)
+                      
+            data.push({
+                 id: nomina.id,
+                ...nominaData
+
+            })
+
+
+        }
+    )
+  //  console.log('articulos total', data)
+    return data
+
+
+}
+
+
+export const getProducts = params => {
+    return dispatch => {
+      return axios.get(`app/articulos/articulo`, { params }).then(res => {
+        dispatch({ type: 'GET_PRODUCTS', data: res.data, params })
+      })
+    }
+  }
+  
 
 export const loadDataArticulosdetaild = id => {
     return dispatch => {
@@ -54,7 +130,7 @@ console.log('response', response)
         (nomina) => {
             //   console.log('categoria', nomina.data())
             const nominaData = nomina.data()
-               console.log('nomina data', nominaData)
+            //   console.log('nomina data', nominaData)
                       
             data.push({
                  id: nomina.id,
@@ -68,7 +144,7 @@ console.log('response', response)
 
         }
     )
-    console.log('articulo', data)
+  //  console.log('articulo', data)
     return data
 
 

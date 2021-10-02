@@ -16,14 +16,15 @@ import {
   import { Swiper, SwiperSlide } from 'swiper/react'
 
   
-import {  Star, ArrowLeft } from 'react-feather'
+import {  Star, ArrowLeft, Smartphone, User } from 'react-feather'
 import { useRTL } from '@hooks/useRTL'
 
   import {geturlimage } from '../../helpers/geturlimage'
 import {getTokenimg } from '../../helpers/getTokenimg'
 import Rating from 'react-rating'
 import { ThemeColors } from '@src/utility/context/ThemeColors'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
+
 
 import '@styles/react/libs/swiper/swiper.scss'
 
@@ -44,7 +45,7 @@ const params = {
 const DetalleProducto = ({datas}) => {
     const history = useHistory()
     console.log('datas detalle', datas)
-    const { articulo, imagen, precio, condicion, descripcion  } = datas[0]
+    const { articulo, imagen, precio, condicion, descripcion, vendedor, telefono } = datas[0]
     const themeColors = useContext(ThemeColors)
     const [isRtl, setIsRtl] = useRTL()
     
@@ -121,7 +122,7 @@ array.map((filteredItem) => (console.log('MAPEO imagenes data filteredItem'))),
 
         <hr />
         <div className='product-color-options'>
-          <h6>Imagenes</h6>
+          <h6>Imagenes</h6> <h6> <User size={14} /> Vendedor:  <Link> {vendedor}  </Link> <Smartphone size={14} /> Telefono: {telefono}</h6>
           <ul className='list-unstyled mb-0'></ul>
         </div>
         <hr />

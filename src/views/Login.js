@@ -12,7 +12,7 @@ import { emailAndPasswordLogin } from '../redux/actions/auth/auth'
 // import { } from "react-router-dom"
 
 const LoginV1 = () => {
-
+  localStorage.setItem("logged", false)
   /*
   const [previewArr, setPreviewArr] = useState([])
 
@@ -55,12 +55,12 @@ const LoginV1 = () => {
       ...data,
       [e.target.name]: value
     })
-    console.log(value)
+   // console.log(value)
 
   }
   const handleemailLogin = (e) => {
     // e.preventDefault()
-    console.log('ingreso login', e)
+   // console.log('ingreso login', e)
     dispatch(emailAndPasswordLogin(email, password))
 
 
@@ -158,7 +158,7 @@ const LoginV1 = () => {
             </Form>
             <p className='text-center mt-2'>
               <span className='mr-25'>Nuevo en la plataforma?</span>
-              <Link to='/pages/register-v1'>
+              <Link to='/regsiter'>
                 <span>Crear cuenta</span>
               </Link>
             </p>

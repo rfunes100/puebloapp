@@ -20,13 +20,14 @@ const imgtoken = getTokenimg()
     const {id} = useParams()
     const dispatch = useDispatch()
     
-    const articulouserdata = useSelector(state => state.articuloReducer.articulouserdata)
+   // const articulouserdata = useSelector(state => state.articuloReducer.articulouserdata)
+   const articulouserdata = useSelector(state => state.articuloReducer.articulouserAlltotal)
 
       const datas = articulouserdata.filter(item => item.id === id)
  
     return (
         <>
-             <BreadCrumbs breadCrumbTitle='Product Details' breadCrumbParent='eCommerce' breadCrumbActive='Details' />
+             <BreadCrumbs breadCrumbTitle='Product0' breadCrumbParent='Product0' breadCrumbActive='Detalle' />
              <div className='app-ecommerce-details'>
           <Card>
             <CardBody>

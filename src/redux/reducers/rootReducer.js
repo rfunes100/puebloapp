@@ -8,6 +8,8 @@ import layout from './layout'
 import { authReducer } from './auth/authReducer'
 import { categoriaReducer } from './auth/categoriaReducer'
 import { articuloReducer } from './auth/articuloReducer'
+import {userReducer } from './auth/userReducer'
+
 
 const rootReducer = combineReducers({
   auth,
@@ -15,6 +17,7 @@ const rootReducer = combineReducers({
   layout,
   categoriaReducer,
   articuloReducer,
+  userReducer,
   auth: authReducer
 })
 

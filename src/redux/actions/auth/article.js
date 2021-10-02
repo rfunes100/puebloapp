@@ -54,7 +54,7 @@ export const leerRegistros = (data) => {
 
 export const borrarArticulo = (id) => {
 
-    console.log('id action', id)
+  //  console.log('id action', id)
     return async (dispatch, getState) => {
        // const { uid } = getState().auth;
         //    const state = getState().nomina;
@@ -78,12 +78,26 @@ export const leerRegistrosArticle = (data) => {
     }
 }
 
+export const leerRegistrosArticleAll = (data) => {
+    return  {
+        type: tipos.articleReadAll,
+        payload:   data
+    }
+}
+
+export const leerRegistrosArticleAlltotal = (data) => {
+    return  {
+        type: tipos.articleReadAlltotal,
+        payload:   data
+    }
+}
+
 export const cargarimagenes = () => {
     handleSuccessimage()
 }
 
 export const crearRegistro = (articulo) => {
-    // console.log('info', articulo.image[0][0].name, articulo)
+     console.log('info articulo', articulo, articulo)
     const imagen = []
 
     articulo.image.forEach((element, index) => imagen.push(articulo.image[index][0].name.replace(/\s+/g, ''))
@@ -103,9 +117,12 @@ export const crearRegistro = (articulo) => {
             // imagen: "url",
             // imagen: ["100", "101", articulo.image[0][0].name],
             imagen,
-            vendedor: "ritchie",
-            articulo: articulo.marca,
+            telefono: articulo.telefono,
+            vendedor: articulo.vendedor, //: "ritchie",
+            articulo:  articulo.marca,
             condicion: articulo.estadopro
+          //  created: firebase.firestore.Timestamp()
+            
 
         }
 

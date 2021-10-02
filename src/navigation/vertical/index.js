@@ -1,4 +1,4 @@
-import { Mail, Home, ShoppingBag, Flag } from 'react-feather'
+import { Mail, Home, ShoppingBag, Flag,  ShoppingCart } from 'react-feather'
 
 export default [
   {
@@ -24,5 +24,13 @@ export default [
     title: 'Agregar Articulos',
     icon: <ShoppingBag size={20} />,
     navLink: '/save-articles'
+  },
+  {
+    id: 'productall',
+    title: 'Productos',
+    icon: <ShoppingCart size={20} />,
+    navLink: '/productall'
   }
+
+  
 ]

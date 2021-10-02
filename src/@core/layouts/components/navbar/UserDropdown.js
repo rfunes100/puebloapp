@@ -1,6 +1,12 @@
 // ** React Imports
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getusername } from '../../../../helpers/getusername'
+import { logout } from '../../../../redux/actions/auth/auth'
+import {geturlimage } from '../../../../helpers/geturlimage'
+import {getTokenimg } from '../../../../helpers/getTokenimg'
+import {getImageprofile} from '../../../../helpers/getImageprofile'
+
 
 // ** Custom Components
 import Avatar from '@components/avatar'
@@ -34,14 +40,28 @@ const UserDropdown = () => {
   }, [])
 
   //** Vars
-  const userAvatar = (userData && userData.avatar) || defaultAvatar
+ // const userAvatar = (userData && userData.avatar) || defaultAvatar
+
+  const usiario = getusername()
+  const img = geturlimage()
+  const imgtoken = getTokenimg()
+  const imgprofile = getImageprofile()
+
+
+  const userAvatar = `${img}${imgprofile}?alt=media&token=${imgtoken}`
+
+ // console.log('username', usiario, usiario)
+
+  const handlelogout = () => {
+    dispatch(logout())
+}
 
   return (
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
         <div className='user-nav d-sm-flex d-none'>
-          <span className='user-name font-weight-bold'>{(userData && userData['username']) || 'John Doe'}</span>
-          <span className='user-status'>{(userData && userData.role) || 'Admin'}</span>
+          <span className='user-name font-weight-bold'>{ usiario  /*(  userData && userData['username']) || 'John Doe'*/ }</span>
+          <span className='user-status'>{(userData && userData.role) || ''}</span>
         </div>
         <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
       </DropdownToggle>
@@ -62,7 +82,7 @@ const UserDropdown = () => {
           <MessageSquare size={14} className='mr-75' />
           <span className='align-middle'>Chats</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to='/login' onClick={() => dispatch(handleLogout())}>
+        <DropdownItem tag={Link} to='/login' onClick= { handlelogout}>
           <Power size={14} className='mr-75' />
           <span className='align-middle'>Logout</span>
         </DropdownItem>
