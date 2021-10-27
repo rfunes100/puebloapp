@@ -115,7 +115,7 @@ const ProductCards = (props) => {
                   })}
                   size={14}
                 />
-                <span>Wishlist</span>
+                <span>Favoritos</span>
               </Button>
               <Button
                 color='primary'

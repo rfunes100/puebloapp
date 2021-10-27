@@ -81,14 +81,14 @@ export const emailAndPasswordLogin = (email, password) => {
              //   loadDataUsers().then((response) => { console.log('response', response) })
 
                
-            //    console.log('user logea', user)
+                console.log('user logea', user.displayName, user)
                 dispatch(
                    login(user.uid, user.displayName),
                     localStorage.setItem("userid", user.uid),
-                    localStorage.setItem("nameuser", user.displayName),
+                    localStorage.setItem("nameuser", user.email /*user.displayName */),
                     localStorage.setItem("logged", true)
                     
-                )
+                )   
                 window.location = 'productall'      
 
             }

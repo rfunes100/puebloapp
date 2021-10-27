@@ -46,9 +46,10 @@ const SaveArticulos = () => {
     const categoriadata = useSelector(state => state.categoriaReducer.categoriadata)
     const userdata = useSelector(state => state.userReducer.userdata)
     const usiario = getusername()
-    const userdataid = userdata.filter(item => item.usuario === usiario)
 
-   console.log('userdata', userdata)
+    const userdataid = userdata.filter(item => item.correo === usiario)
+
+   console.log('userdata', userdataid,  usiario,  userdata)
    
    console.log('userdataid', userdataid[0].telefono, userdataid)
 
@@ -59,6 +60,7 @@ const SaveArticulos = () => {
     })
 
     const { precio, descripcion, marca } = articulo
+
 
     const infoarticulo = {
         precio,
