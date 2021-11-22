@@ -1,6 +1,6 @@
 // ** Third Party Components
 import classnames from 'classnames'
-import { Menu, Grid, List } from 'react-feather'
+import { Menu, Grid, List, Star, Clipboard } from 'react-feather'
 import {
   Row,
   Col,
@@ -12,9 +12,42 @@ import {
   ButtonGroup
 } from 'reactstrap'
 
+import { useState } from 'react'
+import { refresharticulos} from '../../redux/actions/auth/article'
+import { useDispatch } from 'react-redux'
+
+
 const ProductsHeader = props => {
   // ** Props
-  const { activeView, setActiveView, dispatch, getProducts, store, setSidebarOpen } = props
+  const { activeView, setActiveView,  dispatch, getProducts, store, setSidebarOpen } = props
+  const [activeprodView, setActiveprodView] = useState("all")
+  const dispatches = useDispatch()
+
+
+   const handlefavoritos = () => {
+    //  console.log('favoritos')
+      localStorage.setItem('paginaarticulofinal', 10)
+      localStorage.setItem('paginaarticulo', 0)
+      localStorage.setItem("filfavorito", true)
+      localStorage.setItem("npagina", 1)
+      setActiveprodView('favoritos')
+     dispatches(refresharticulos())
+    
+   }
+
+   const handleproductos = () => {
+  //  console.log(' no aplica favoritos')
+    localStorage.setItem("filfavorito", false)
+    setActiveprodView('all')
+    localStorage.setItem('paginaarticulofinal', 10)
+    localStorage.setItem('paginaarticulo', 0)
+    const aplica = localStorage.getItem("filfavorito")
+    localStorage.setItem("npagina", 1)
+  //  console.log(' no aplica favoritos', aplica)
+    dispatches(refresharticulos())
+    
+
+   }
 
   // ** Sorting obj
   const sortToggleText = {
@@ -66,7 +99,30 @@ const ProductsHeader = props => {
               </UncontrolledButtonDropdown>
             */}
 
+
               <ButtonGroup className='btn-group-toggle'>
+              <Button
+                  tag='label'
+                  className={classnames('btn-icon view-btn grid-view-btn', {
+                    active: activeprodView === 'all'
+                  })}
+                  color='info'
+                  outline
+                  onClick={() => handleproductos()}
+                >
+                  <Clipboard size={18} />
+                </Button>
+              <Button
+                  tag='label'
+                  className={classnames('btn-icon view-btn grid-view-btn', {
+                    active: activeprodView === 'favoritos'
+                  })}
+                  color='info'
+                  outline
+                  onClick={() => handlefavoritos()}
+                >
+                  <Star size={18} />
+                </Button>
                 <Button
                   tag='label'
                   className={classnames('btn-icon view-btn grid-view-btn', {

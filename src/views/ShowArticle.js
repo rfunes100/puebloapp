@@ -18,7 +18,7 @@ import {
 import {  Star, Trash2, Info } from 'react-feather'
 
 import { useDispatch } from 'react-redux'
-import { borrarArticulo } from '../redux/actions/auth/article'
+import { borrarArticulo, crearfavoritos } from '../redux/actions/auth/article'
 import {geturlimage } from '../helpers/geturlimage'
 import {getTokenimg } from '../helpers/getTokenimg'
 import Rating from 'react-rating'
@@ -40,6 +40,7 @@ const ShowArticle = ({props}) => {
     const dispatch = useDispatch()
 
     const handleDelete = () => {
+      console.log('delete articule')
         dispatch(borrarArticulo(id))
     }
 
@@ -81,14 +82,14 @@ const ShowArticle = ({props}) => {
                   
                   </CardText>
                   <Button.Ripple color='info' outline
-                  onClick={handledetalle} >
+                  onClick={ () => handledetalle} >
                   <Info
                   size={18}
                 />
                 Informacion
             </Button.Ripple>
             <Button.Ripple color='danger' outline
-             onClick={handleDelete} >
+             onClick={() => handleDelete()} >
                   <Trash2
                   size={18}
                 />

@@ -23,13 +23,16 @@ const Index = () => {
     const getProductsadd = useSelector(state => state.articuloReducer.articulouserAlldata)
     const getProductstotal = useSelector(state => state.articuloReducer.articulouserAlltotal)
     
+
     const [params, setparams] = useState({
         q: '',
         sortBy: 'featured',
         perPage: 10,
-        page: 1
+        page: Number(localStorage.getItem('npagina')) //1
 
     })
+  
+    console.log(' localStorage.getItem(npagina)',  localStorage.getItem('npagina'),  params)
 
     /*
     const params = {
@@ -48,7 +51,7 @@ const Index = () => {
     const prodcutspage = getProductsadd.slice(0, params.perPage)
 
     const getProducts = prodcutspage
- // console.log('prodcutspage', prodcutspage, totalproducts) 
+  console.log('prodcutspage', prodcutspage, totalproducts, getProductstotal) 
 
      // ** Get products
 

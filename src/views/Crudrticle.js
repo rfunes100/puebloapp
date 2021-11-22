@@ -58,7 +58,7 @@ const Crudrticle = () => {
          
        </Row>
       
-
+{/*}
        <Pagination className='d-flex mt-3'>
        <PaginationItem>
         <PaginationLink className='text-nowrap' href='#' first>
@@ -91,6 +91,7 @@ const Crudrticle = () => {
 
 </Pagination>
 
+*/}
 
         </div>
     )

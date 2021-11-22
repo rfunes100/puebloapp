@@ -24,7 +24,7 @@ import Rating from 'react-rating'
 import Uppy from '@uppy/core'
 import thumbnailGenerator from '@uppy/thumbnail-generator'
 import { useDispatch, useSelector } from 'react-redux'
-import { crearRegistro, cargarimagenes, leerRegistros } from '../redux/actions/auth/article'
+import { crearRegistro, cargarimagenes, leerRegistros, validacantidadarticulos } from '../redux/actions/auth/article'
 import { storage } from '../redux/actions/firebase/config-firebase'
 import Select, { components } from 'react-select'
 import { ThemeColors } from '@src/utility/context/ThemeColors'
@@ -45,13 +45,14 @@ const SaveArticulos = () => {
 
     const categoriadata = useSelector(state => state.categoriaReducer.categoriadata)
     const userdata = useSelector(state => state.userReducer.userdata)
+    const articulouserdata = useSelector(state => state.articuloReducer.articulouserdata)
+
     const usiario = getusername()
 
     const userdataid = userdata.filter(item => item.correo === usiario)
-
-   console.log('userdata', userdataid,  usiario,  userdata)
+   console.log('userdata',  articulouserdata)
    
-   console.log('userdataid', userdataid[0].telefono, userdataid)
+  // console.log('userdataid', userdataid[0].telefono, userdataid)
 
     const [articulo, setarticulo] = useState({
         precio: 0,
@@ -60,20 +61,8 @@ const SaveArticulos = () => {
     })
 
     const { precio, descripcion, marca } = articulo
-
-
-    const infoarticulo = {
-        precio,
-        descripcion,
-        marca,
-        image,
-        category,
-        estadopro,
-        telefono: userdataid[0].telefono,
-        vendedor: usiario
-           
-    }
-
+  
+    
     const limpiar = () => {
         setarticulo({
             precio: 0,
@@ -150,9 +139,35 @@ const SaveArticulos = () => {
 
 
     const handleaddarticle = () => {
-        //  console.log(category)
-        dispatch(crearRegistro(infoarticulo))
-        limpiar()
+        
+    const userdataart = userdata.filter(item => item.correo === usiario)
+    
+
+    const infoarticulo = {
+        precio,
+        descripcion,
+        marca,
+        image,
+        category,
+        estadopro,
+        telefono: userdataid[0].telefono,
+        vendedor: usiario
+           
+    }
+
+    const articulousuario =  articulouserdata.length
+          console.log(userdataart[0].cantidadArticulos,   articulouserdata.length,  'cantidad art')
+          const cantidadpermitida  = userdataart[0].cantidadArticulos
+        if (articulousuario  >= cantidadpermitida) {
+          
+            validacantidadarticulos()
+        } else {
+         
+
+            dispatch(crearRegistro(infoarticulo))
+            limpiar()
+        }
+     
 
     }
 

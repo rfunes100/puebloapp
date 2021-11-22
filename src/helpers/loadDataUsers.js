@@ -33,14 +33,14 @@ export const loadDataUsers = async() => {
 
         }
     )
-    console.log('usuarios total', data)
+   // console.log('usuarios total', data)
     const datas = data.filter(item => item.usuario === usenombre)
-    console.log('usuarios total datas',  datas)
+ //   console.log('usuarios total datas',  datas)
 
-    console.log('usenombre', usenombre.IsEmpty)
+   // console.log('usenombre', usenombre.IsEmpty)
     if (datas.length > 0) {
         
-        console.log('usuarios total datas', datas[0].imagen, datas)
+    //    console.log('usuarios total datas', datas[0].imagen, datas)
         localStorage.setItem("avatar", datas[0].imagen)
         
 // console.log('vacia vacia o undefined')

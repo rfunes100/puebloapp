@@ -17,7 +17,7 @@ export const articuloReducer = (state = initialState, action) => {
                 ...state,
                 articulouserdata: [...state.articulouserdata, action.payload]
             }
-        case tipos.articleRead:
+            case tipos.articleRead:
             return {
                 ...state,
                 articulouserdata: action.payload
@@ -29,12 +29,24 @@ export const articuloReducer = (state = initialState, action) => {
                     articulouserAlldata: action.payload
                   //  articulouserdata: [...state.articulouserdata, action.payload]
                 }   
-            case tipos.articleReadAlltotal:
+            case tipos.articleUserDataClean:
                     return {
                         ...state,
-                        articulouserAlltotal: action.payload
+                        articulouserdata: []
                       //  articulouserdata: [...state.articulouserdata, action.payload]
-                    }   
+                    }      
+            case tipos.articleClean:
+                    return {
+                        ...state,
+                        articulouserAlltotal: []
+                      //  articulouserdata: [...state.articulouserdata, action.payload]
+                    }  
+            case tipos.articleReadAlltotal:
+                        return {
+                            ...state,
+                            articulouserAlltotal: action.payload
+                          //  articulouserdata: [...state.articulouserdata, action.payload]
+                        }    
             case tipos.articleDetails:
                 return {
                     ...state,

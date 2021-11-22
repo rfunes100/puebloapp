@@ -4,14 +4,20 @@ import { Link } from 'react-router-dom'
 
 // ** Third Party Components
 import classnames from 'classnames'
-import { Star, ShoppingCart, Heart } from 'react-feather'
-import { Card, CardBody, CardText, Button, Badge } from 'reactstrap'
+import { Star, ShoppingCart, Heart, Trash2, Search, Sidebar } from 'react-feather'
+import { Card, CardBody, CardText, Button, Badge
+, Row, Col, InputGroup, InputGroupAddon, Input, InputGroupText  } from 'reactstrap'
 
 import {geturlimage } from '../../helpers/geturlimage'
 import {getTokenimg } from '../../helpers/getTokenimg'
 import Rating from 'react-rating'
 import { ThemeColors } from '@src/utility/context/ThemeColors'
 import { useRTL } from '@hooks/useRTL'
+import {  crearfavoritos, borrarfavoritos } from  '../../redux/actions/auth/article'
+import { useDispatch } from 'react-redux'
+import { getusername } from '../../helpers/getusername'
+//import { Row, Col, InputGroup, InputGroupAddon, Input, InputGroupText } from 'reactstrap'
+
 
 const ProductCards = (props) => {
 
@@ -19,30 +25,73 @@ const ProductCards = (props) => {
         store,
         getProducts,
         products,
-        activeView,
-        dispatch
+        activeView
+       // , dispatch
       } = props
 
-  //    console.log('getProductscards', getProducts)
+   //   console.log('getProductscards', products, getProducts)
 
       const img = geturlimage()
       const imgtoken = getTokenimg()
       const imgdb = 'huay9s.jpg' // getProducts.imagen[0]
       const themeColors = useContext(ThemeColors)
-      const [isRtl, setIsRtl] = useRTL()
+      const [isRtl, setIsRtl] = useRTL()  
+      const dispatch = useDispatch()
+      const usuario = getusername()
 
+      
+     const handleBorrarFavorito = (id) => {
+   //   console.log('objIndex datas a borrar ', products)
+      const datas = products.filter(item => item.id === id)
+      const  objIndex = products.findIndex((obj => obj.id === id))
+      products[objIndex].favor = false
+    //  console.log('objIndex datas borrar usuario', datas,   datas[0].favoritos.length, products[objIndex])
+
+      dispatch(borrarfavoritos(id, usuario))
+
+
+     } 
+    
+const handleWishlistClick = (id, favorite) => {
+
+ // console.log('objIndex datas', products)
+  const datas = products.filter(item => item.id === id)
+  const  objIndex = products.findIndex((obj => obj.id === id))
+  products[objIndex].favor = true
+
+ // console.log('objIndex datas', datas,   datas[0].favoritos.length, products[objIndex])
+
+ // console.log('objIndex datas', datas[0].favoritos.length, datas[0].favoritos)
+
+  const favorito = []
+if (/*datas[0].favor === true*/ datas[0].favoritos.length > 0  /*|| datas[0].favoritos === undefined*/) {
+ //  favorito.push(datas[0].favoritos)
+
+  datas[0].favoritos.forEach((element, index) => favorito.push(element))
+ 
+  }
+  favorito.push(usuario)
+
+  dispatch(crearfavoritos(id, favorito, datas))
+} 
         // ** Renders products
   const renderProducts = () => {
     
+    console.log('products', products)
     if (products.length) {
-      return products.map(item => {
+      return products.map((item, index) => {
         const CartBtnTag = item.isInCart ? Link : 'button'
       //  console.log('item', item.imagen[0], item)
+
 
         const urlimage = `${img}${item.imagen[0]}?alt=media&token=${imgtoken}`
 
         return (
-          <Card className='ecommerce-card' key={item.id}>
+
+          <>
+       
+            
+          <Card className='ecommerce-card' key={item}>
             <div className='item-img text-center mx-auto'>
               <Link to={`/productodetalle/${item.id}`}>
                 <img className='img-fluid card-img-top' src={urlimage} alt={item.imagen[0]} />
@@ -102,21 +151,42 @@ const ProductCards = (props) => {
                       <Badge color='light-success'>Free Shipping</Badge>
                     </CardText>
                   ) : null}
+                  
                 </div>
               </div>
-              <Button
-                className='btn-wishlist'
-                color='light'
-                onClick={() => handleWishlistClick(item.id, item.isInWishlist)}
-              >
-                <Heart
+
+            
+              {  item.favor ? (
+                    <Button className='btn-wishlist' color="light"
+                    onClick={ () => handleBorrarFavorito(item.id)}
+                    >
+                        <Heart
                   className={classnames('mr-50', {
-                    'text-danger': item.isInWishlist
+                    'text-danger': 'Favoritos'
                   })}
                   size={14}
                 />
-                <span>Favoritos</span>
+                        <span>Favoritos 
+                </span>
+                    </Button>
+                    
+                  ) :  <Button
+                className='btn-wishlist'
+                color="light"
+                onClick={ () => handleWishlistClick(item.id, item.index)}
+              >
+                <Heart
+                  className={classnames('mr-50', {
+                    'text-danger':  item.isInWishlist
+                  })}
+                  size={14}
+                />
+              
+                <span>Favoritos 
+                </span>
               </Button>
+              }
+              
               <Button
                 color='primary'
                 tag={CartBtnTag}
@@ -135,6 +205,8 @@ const ProductCards = (props) => {
               </Button>
             </div>
           </Card>
+
+          </>
         )
       })
     }
@@ -143,11 +215,14 @@ const ProductCards = (props) => {
    
     return (     
         <div
+
+        
         className={classnames({
           'grid-view': activeView === 'grid',
           'list-view': activeView === 'list'
         })}
       >
+
         {renderProducts()}
       </div>
     )

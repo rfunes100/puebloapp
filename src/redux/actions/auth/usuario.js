@@ -36,7 +36,8 @@ export const crearRegistro = (articulo) => {
             correo: articulo.correo,
             estado: "Activo",
             politicas: true,
-            clave: cifrar(articulo.passwordconfirm)
+            clave: cifrar(articulo.passwordconfirm),
+            cantidadArticulos: 5
 
         }
        // console.log('datos', datos)

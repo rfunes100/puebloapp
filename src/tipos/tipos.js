@@ -9,7 +9,9 @@ export const tipos = {
     articleReadAlltotal: '[articleReadAlltotal] readAlltotal',
     articleDelete: '[articleDelete] delete',
     articleDetails: '[articleDetails] details',
-    categoriaRead: '[categoriaRead] read',
+    articleClean: '[articleDelete] delete',
+    articleUserDataClean: '[articleUserDataClean] clean user article',
+    categoriaRead: '[articleClean] clean',
     categoriaAdd: '[categoriaAdd] Add',
     userAdd: '[userAdd] Add',
     userRead: '[userRead] Read'

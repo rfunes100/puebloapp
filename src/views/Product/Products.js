@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import ProductCards from './ProductCards'
 import ProductsHeader from './ProductsHeader'
+import ProductsSearchbar from './ProductsSearchbar'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -46,10 +47,12 @@ const Products = (props) => {
       console.log('articuloall 4 a 6', articuloall.then((res) => /*console.log('res', res),*/ dispatch(leerRegistrosArticleAll(res))))
      //  params.page =  params.page + 1
       // console.log('arrLength page siguiente', params.page)
-
+      localStorage.setItem("paginaarticulo", paginas.pagina)
+      localStorage.setItem("paginaarticulofinal", paginas.cantidadpagina)
      // dispatch(getProducts({ ...params, page: params.page + 1 }))
     } else if (val === 'prev') {
       //  console.log('previo')  
+      localStorage.setItem("npagina", params.page - 1)
         params.page =  params.page - 1
        // console.log('params.page prev', params.page)
         paginas.pagina =  paginas.cantidadpagina * (params.page - 1)
@@ -60,8 +63,10 @@ const Products = (props) => {
         
    //   console.log('paginas.cantidadpagina cantidad prev', paginas.cantidadpagina, paginas.pagina)
       const articuloall =   loadDataArticulos(paginas)
-
+      localStorage.setItem("paginaarticulo", paginas.pagina)
+      localStorage.setItem("paginaarticulofinal", paginas.cantidadpagina)
      console.log('articuloall 4 a 6', articuloall.then((res) => /*console.log('res', res),*/ dispatch(leerRegistrosArticleAll(res))))
+     
 
    }
 
@@ -69,6 +74,8 @@ const Products = (props) => {
 
       // ** Render pages
   const renderPageItems = () => {
+     params.page  = Number(localStorage.getItem('npagina'))
+    console.log('params', params)
 
    // console.log('totalproducts divisibles', prodcutspage.length, totalproducts, Math.ceil(Number(totalproducts) / prodcutspage.length))   
 
@@ -103,9 +110,11 @@ const Products = (props) => {
             if (params.page !== Number(totalproducts) / prodcutspage.length) {
               //  console.log('params.page', params.page + 1)
                 paginas.pagina =  paginas.cantidadpagina * (params.page)
+                localStorage.setItem("npagina", params.page + 1)
                 params.page =  params.page + 1
                 paginas.cantidadpagina =  paginas.cantidadpagina * (params.page)
            //   console.log('paginas.cantidadpagina cantidad ', paginas.cantidadpagina, paginas.pagina)
+           console.log('params.page', params.page)
               handlePageChange('next')           
                 
             }
@@ -133,7 +142,7 @@ const Products = (props) => {
           ></div>
         
           {/* 
-          <ProductsSearchbar dispatch={dispatch} getProducts={getProducts} store={store} />
+          <ProductsSearchbar dispatch={dispatch} getProducts={store} store={store} />
           */}
          
             <Fragment>

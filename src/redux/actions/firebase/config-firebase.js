@@ -5,8 +5,10 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 //import 'firebase/database'
 
-import 'firebase/firestore'
+import   'firebase/firestore'
 import 'firebase/storage'
+
+//import  from "firebase/firestore";
 
 
 const firebaseConfig = {
@@ -32,5 +34,5 @@ const dbpueblo = firebase.firestore()
 
 const googlAuthProvider = new firebase.auth.GoogleAuthProvider()
 
-export { firebase, dbpueblo, googlAuthProvider, storage }
+export {  firebase, dbpueblo, googlAuthProvider, storage }
 

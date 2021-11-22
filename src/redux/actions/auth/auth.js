@@ -4,6 +4,7 @@ import { tipos } from '../../../tipos/tipos'
 import { firebase } from '../firebase/config-firebase'
 import { crearRegistro } from '../../../redux/actions/auth/usuario'
 import {loadDataUsers} from '../../../helpers/loadDataUsers'
+import Swal from 'sweetalert2'
 
 //import { Link, useHistory } from 'react-router-dom'
 
@@ -11,6 +12,17 @@ import {loadDataUsers} from '../../../helpers/loadDataUsers'
 /*const historys = () => {
     history = useHistory()
 }*/
+const handleError = () => {
+    return Swal.fire({
+        title: 'Correo y Usuario!',
+        text: 'invalido!',
+        icon: 'error',
+        customClass: {
+            confirmButton: 'btn btn-info'
+        },
+        buttonsStyling: false
+    })
+}
 
 export const login = (uid, displayname) => {
 
@@ -76,24 +88,21 @@ export const emailAndPasswordLogin = (email, password) => {
         // const history = useHistory()
 
         firebase.auth().signInWithEmailAndPassword(email, password).
-            then(({ user }) => {
-              
-             //   loadDataUsers().then((response) => { console.log('response', response) })
-
-               
-                console.log('user logea', user.displayName, user)
+            then(({ user }) => {                         
+             console.log('user logea', user.displayName, user)
                 dispatch(
                    login(user.uid, user.displayName),
                     localStorage.setItem("userid", user.uid),
                     localStorage.setItem("nameuser", user.email /*user.displayName */),
-                    localStorage.setItem("logged", true)
+                    localStorage.setItem("logged", true),
+                    localStorage.setItem("filfavorito", false),
+                    localStorage.setItem('npagina', 1)
                     
                 )   
                 window.location = 'productall'      
 
-            }
-
-            )
+            }                    
+            ).catch((error) => { handleError() /*console.log('error', error)*/ })
     }
 
 }
